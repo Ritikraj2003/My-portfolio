@@ -1,0 +1,247 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+  padding: 1rem;
+  
+  @media (min-width: 768px) {
+    margin-left: 250px;
+    padding: 2rem;
+  }
+  
+  @media (min-width: 992px) {
+    padding: 3rem;
+  }
+}
+
+/* Mobile toggle button */
+.mobile-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1060;
+  background-color: #343a40;
+  border: none;
+  color: #fff;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  
+  @media (min-width: 768px) {
+    display: none;
+  }
+  
+  &:hover {
+    background-color: #495057;
+    transform: translateY(-1px);
+  }
+  
+  i {
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile overlay */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1040;
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+  
+  @media (min-width: 768px) {
+    margin-bottom: 1.5rem;
+  }
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-text {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    
+    @media (min-width: 768px) {
+      font-size: 2rem;
+    }
+    
+    @media (min-width: 992px) {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+/* Responsive grid for dashboard cards */
+.row {
+  margin: 0 -0.5rem;
+  
+  @media (min-width: 768px) {
+    margin: 0 -1rem;
+  }
+}
+
+.col-md-6, .col-lg-3 {
+  padding: 0 0.5rem;
+  
+  @media (min-width: 768px) {
+    padding: 0 1rem;
+  }
+}
+
+/* Dashboard header */
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  
+  @media (min-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 992px) {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Container fluid adjustments */
+.container-fluid {
+  padding: 0;
+  
+  @media (min-width: 768px) {
+    padding: 0 1rem;
+  }
+  
+  @media (min-width: 992px) {
+    padding: 0 2rem;
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 1rem 0.5rem;
+    padding-top: 4rem; /* Space for mobile toggle button */
+  }
+  
+  .card {
+    .card-body {
+      padding: 1rem;
+    }
+    
+    .card-text {
+      font-size: 1.25rem;
+    }
+    
+    .card-title {
+      font-size: 0.85rem;
+    }
+  }
+  
+  h1 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 767px) and (orientation: landscape) {
+  .main-content {
+    padding: 0.5rem;
+    padding-top: 3rem;
+  }
+  
+  .card {
+    .card-body {
+      padding: 0.75rem;
+    }
+  }
+  
+  .mobile-toggle {
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.5rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid #000;
+  }
+  
+  .card-body {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .mobile-toggle {
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .main-content,
+  .mobile-toggle,
+  .mobile-overlay {
+    transition: none;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .mobile-toggle {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}

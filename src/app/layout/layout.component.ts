@@ -9,19 +9,17 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
+  isMobileMenuOpen = false;
+
   constructor(private router : Router){
 
   }
- OnClickAbout() {
-    this.router.navigate(['/about']);  // Navigate programmatically to /about page
+  
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
-  OnClickHome(){
-    this.router.navigate(['/']);
-  }
-  OnClickProjects(){
-    this.router.navigate(['/projects']);
-  }
-  OnClickSkills(){
-    this.router.navigate(['/skills']);
+  
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
   }
 }

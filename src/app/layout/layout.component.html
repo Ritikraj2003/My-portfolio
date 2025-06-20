@@ -1,9 +1,20 @@
 <header class="header">
   <div class="logo">Guttan <span>Gouda</span></div>
-  <nav class="nav-links">
-    <a routerLink="/home" routerLinkActive="active" (click)="OnClickHome()">Home</a>
-    <a routerLink="/about" routerLinkActive="active" (click)="OnClickAbout()">About</a>
-    <a routerLink="/projects" routerLinkActive="active" (click)="OnClickProjects()">Projects</a>
-    <a routerLink="/skills" routerLinkActive="active" (click)="OnClickSkills()">Skills</a>
+  
+  <!-- Mobile menu button -->
+  <button class="mobile-menu-btn hide-desktop" (click)="toggleMobileMenu()" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <nav class="nav-links" [class.mobile-open]="isMobileMenuOpen">
+    <a routerLink="/home" routerLinkActive="active" (click)="closeMobileMenu()">Home</a>
+    <a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">About</a>
+    <a routerLink="/projects" routerLinkActive="active" (click)="closeMobileMenu()">Projects</a>
+    <a routerLink="/skills" routerLinkActive="active" (click)="closeMobileMenu()">Skills</a>
   </nav>
+  
+  <!-- Mobile menu overlay -->
+  <div class="mobile-overlay" [class.active]="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
 </header>
