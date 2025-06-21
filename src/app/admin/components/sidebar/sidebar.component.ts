@@ -27,7 +27,7 @@ export class SidebarComponent {
     return this.router.isActive(path, true);
   }
 
-  logout(): void {
-    this.authService.logout();
-  }
+    // logout(): void {
+    //   this.authService.logout();
+    // }
 }

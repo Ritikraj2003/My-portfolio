@@ -8,17 +8,15 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private router: Router) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // Get the token
-    const token = this.authService.getToken();
+    const token = sessionStorage.getItem('token');
 
-    // Clone the request and add auth header if token exists
     if (token) {
       request = request.clone({
         setHeaders: {
@@ -27,12 +25,12 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     }
 
-    // Handle the request and catch any errors
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        // Auto logout if 401 Unauthorized or 403 Forbidden response
-        if (error.status === 401 || error.status === 403) {
-          this.authService.logout();
+        if (error.status === 401) {
+          // Auto logout if 401 Unauthorized response
+          sessionStorage.removeItem('token');
+          this.router.navigate(['/admin/login']);
         }
         return throwError(() => error);
       })

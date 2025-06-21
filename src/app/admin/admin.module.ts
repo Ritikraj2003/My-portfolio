@@ -1,17 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ADMIN_ROUTES } from './admin-routing.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
+import { LoginComponent } from './login/login.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
+  declarations: [
+    AdminLayoutComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild(ADMIN_ROUTES)
+    HttpClientModule,
+    RouterModule.forChild(ADMIN_ROUTES),
+    LoginComponent,
+    DashboardComponent
   ],
   providers: [
     {

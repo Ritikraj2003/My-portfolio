@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router'
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { AuthService } from '../admin/services/auth.service';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -27,10 +29,23 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
   ]
 })
 
-export class HomeComponent {
-  constructor(private router: Router) {}
+export class HomeComponent implements OnInit {
+  aboutMe: any;
+  constructor(private router: Router,
+    private authService: AuthService
+  ) {}
+  ngOnInit(): void {
+    this.GetAllAboutMe();
+  }
 
- OnClickAbout() {
+  OnClickAbout() {
     this.router.navigate(['/about']);  // Navigate programmatically to /about page
+  }
+
+  GetAllAboutMe() {
+    this.authService.GetAllAboutMe().subscribe((res) => {
+      console.log(res);
+      this.aboutMe = res;
+    });
   }
 }
