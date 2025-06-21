@@ -10,6 +10,25 @@
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .circle-logo {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00ffff;
+
+    @media (min-width: 768px) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
   @media (min-width: 768px) {
     padding: 1.2rem 2rem;
   }
