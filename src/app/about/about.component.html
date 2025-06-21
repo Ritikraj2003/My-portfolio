@@ -1,10 +1,10 @@
 <div class="about-container" @fadeInStagger>
-  <img src="assets/Profile_image.jpg" alt="Guttan Gouda" class="profile-pic" />
+  <img src="assets/Ritik_image.jpg" alt="Ritik Raj" class="profile-pic" />
 
   <h2>About Me</h2>
 
   <p>
-    I'm <strong>Guttan Gouda</strong>, a passionate software developer with
+    I'm <strong>Ritik Raj</strong>, a passionate software developer with
     expertise in <span class="highlight">.NET</span> and
     <span class="highlight">Angular</span>.
   </p>
@@ -15,14 +15,14 @@
     solutions, and integrations with platforms like Swiggy and Zomato.
   </p>
 
-  <div class="details">
-    <div><strong>Email:</strong> {{"guttangouda0@gmail.com"}}</div>
-    <div><strong>Phone:</strong> 9902858769</div>
+  <div class="details" *ngFor="let item of aboutMe">
+    <div><strong>Email:</strong> {{item.gmail}}</div>
+    <div><strong>Phone:</strong> {{item.phoneNumber}}</div>
     <div><strong>Location:</strong>Bengaluru, India</div>
-    <div><strong>Experience:</strong> 2+ years</div>
+    <div><strong>Experience:</strong> Fresher</div>
   </div>
 
-  <a href="assets/Guttanna_Resume.pdf" download>
+  <a href="assets/Ritik_Resume.pdf" download>
     <button class="download-btn">Download Resume</button>
   </a>
 </div>

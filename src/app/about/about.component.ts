@@ -1,10 +1,14 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { AuthService } from '../admin/services/auth.service';
+import { environment } from '../../environments/environment';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [],
+  imports: [CommonModule ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
   animations: [
@@ -20,6 +24,22 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
     ])
   ]
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit {
+  aboutMe: any;
+  resume: any;
 
+   constructor(private authService: AuthService) {}
+  ngOnInit(): void {
+    this.GetAllAboutMe();
+  }
+
+GetAllAboutMe() {
+  debugger;
+    this.authService.GetAllAboutMe().subscribe((res) => {
+      console.log(res);
+      this.aboutMe = res;
+      this.resume = environment.apiUrl + this.aboutMe[0].resume;
+      sessionStorage.setItem('name', this.aboutMe[0].name);
+    });
+  }
 }

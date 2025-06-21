@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router'
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { AuthService } from '../admin/services/auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,8 @@ import { AuthService } from '../admin/services/auth.service';
 
 export class HomeComponent implements OnInit {
   aboutMe: any;
-  constructor(private router: Router,
+  resume!: string;
+    constructor(private router: Router,
     private authService: AuthService
   ) {}
   ngOnInit(): void {
@@ -46,6 +48,8 @@ export class HomeComponent implements OnInit {
     this.authService.GetAllAboutMe().subscribe((res) => {
       console.log(res);
       this.aboutMe = res;
+      this.resume = environment.apiUrl + this.aboutMe[0].resume;
+      sessionStorage.setItem('name', this.aboutMe[0].name);
     });
   }
 }
