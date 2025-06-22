@@ -1,21 +1,19 @@
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { importProvidersFrom } from '@angular/core';
-import { routes } from './app.routes';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideClientHydration } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+import { routes } from './app.routes';
 
-export const appConfig = {
+export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    provideClientHydration(),
+    provideAnimations(),
     importProvidersFrom(
-      RouterModule,
-      CommonModule,
-      HttpClientModule,
-      BrowserAnimationsModule
-    ),
-    provideAnimations()
+      NgbModule,
+      HttpClientModule
+    )
   ]
 };

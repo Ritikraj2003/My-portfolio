@@ -9,6 +9,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { ProjectMasterComponent } from './project-master/project-master.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HttpClientModule,
     RouterModule.forChild(ADMIN_ROUTES),
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    SidebarComponent,
+    ProjectMasterComponent
   ],
   providers: [
     {

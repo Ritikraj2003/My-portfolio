@@ -28,17 +28,61 @@ export class ProjectsComponent {
     {
       title: '.NET Solutions',
       description:
-        'Developed various applications and services using .NET framework.'
+        'Developed various applications and services using .NET framework.',
+      logo: 'assets/dotnet-logo.png',
+      githubUrl: 'https://github.com/yourusername/dotnet-solutions',
+      siteUrl: 'https://your-dotnet-site.com'
     },
     {
       title: 'Angular Projects',
       description:
-        'Built responsive and dynamic web applications with Angular.'
+        'Built responsive and dynamic web applications with Angular.',
+      logo: 'assets/angular-logo.png',
+      githubUrl: 'https://github.com/yourusername/angular-projects',
+      siteUrl: 'https://your-angular-site.com'
     },
     {
       title: 'POS and Hotel Management Systems',
       description:
-        'Designed and implemented POS and hotel management systems.'
-    }
+        'Designed and implemented POS and hotel management systems.',
+     
+      githubUrl: 'https://github.com/yourusername/pos-hotel-systems',
+      siteUrl: 'https://your-pos-site.com'
+    },
+    {
+      title: 'Angular Projects',
+      description:
+        'Built responsive and dynamic web applications with Angular.',
+      logo: 'assets/angular-logo.png',
+      githubUrl: 'https://github.com/yourusername/angular-projects'
+    },
+    {
+      title: 'Angular Projects',
+      description:
+        'Built responsive and dynamic web applications with Angular.',
+      logo: 'assets/angular-logo.png',
+      githubUrl: 'https://github.com/yourusername/angular-projects'
+    },
+    {
+      title: 'Angular Projects',
+      description:
+        'Built responsive and dynamic web applications with Angular.',
+      logo: 'assets/angular-logo.png',
+      githubUrl: 'https://github.com/yourusername/angular-projects'
+    },
+    {
+      title: 'Angular Projects',
+      description:
+        'Built responsive and dynamic web applications with Angular.',
+      logo: 'assets/angular-logo.png',
+      githubUrl: 'https://github.com/yourusername/angular-projects'
+    },
+    {
+      title: 'Angular Projects',
+      description:
+        'Built responsive and dynamic web applications with Angular.',
+      logo: 'assets/angular-logo.png',
+      githubUrl: 'https://github.com/yourusername/angular-projects'
+    },
   ];
 }

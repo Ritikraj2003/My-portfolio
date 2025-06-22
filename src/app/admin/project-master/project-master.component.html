@@ -1,0 +1,125 @@
+<div class="card shadow-sm">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h3 class="mb-0">Manage Projects</h3>
+    <button class="btn btn-primary" (click)="openModal(addProjectModal)">
+      <i class="bi bi-plus-circle me-2"></i>Add Project
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="d-flex justify-content-end mb-3">
+      <div class="input-group" style="max-width: 300px;">
+        <input type="text" class="form-control" placeholder="Search projects...">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Title</th>
+            <th>Website</th>
+            <th>GitHub</th>
+            <th class="text-center">Logo</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="projects.length === 0">
+            <td colspan="6" class="text-center text-muted py-4">
+              No data available in table
+            </td>
+          </tr>
+          <tr *ngFor="let project of projects">
+            <td>
+              <div>{{ project.title }}</div>
+              <small class="text-muted">{{ project.subTitle }}</small>
+            </td>
+            <td><a [href]="project.websitelink" target="_blank" *ngIf="project.websitelink">Link</a></td>
+            <td><a [href]="project.githublink" target="_blank" *ngIf="project.githublink">Link</a></td>
+            <td class="text-center">
+              <img [src]="project.logo" *ngIf="project.logo" alt="logo" class="project-logo">
+            </td>
+            <td class="text-center"><span class="badge bg-success">Active</span></td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-pencil"></i></button>
+              <button class="btn btn-sm btn-outline-info me-2"><i class="bi bi-eye"></i></button>
+              <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash" (click)="DeleteProject(project.id)"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center" *ngIf="projects.length > 0">
+      <ul class="pagination mb-0">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Template -->
+<ng-template #addProjectModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add Project</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="projectForm" id="projectForm">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+          <input type="text" id="title" class="form-control" formControlName="title">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="subTitle" class="form-label">Sub Title</label>
+          <input type="text" id="subTitle" class="form-control" formControlName="subTitle">
+        </div>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label">Project Logo</label>
+          <div class="upload-box" (click)="logoInput.click()">
+              <div *ngIf="!logoPreview" class="upload-placeholder">
+                  <i class="bi bi-image fs-1"></i>
+                  <p class="mb-0">Upload Logo</p>
+              </div>
+              <div *ngIf="logoPreview" class="logo-preview">
+                  <img [src]="logoPreview" alt="Logo Preview">
+                  <span class="change-logo-text">Change Logo</span>
+              </div>
+          </div>
+          <input #logoInput type="file" (change)="onFileChange($event)" accept="image/*" hidden>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" class="form-control" formControlName="description" rows="3"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="websiteLink" class="form-label">Website Link</label>
+          <input type="url" id="websiteLink" class="form-control" formControlName="websiteLink">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="githubLink" class="form-label">GitHub Link</label>
+          <input type="url" id="githubLink" class="form-control" formControlName="githubLink">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="reportPdf" class="form-label">Report PDF</label>
+       <input type="file" id="reportPdf" class="form-control" accept=".pdf" (change)="onReportFileChange($event)">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Cancel click')">Cancel</button>
+    <button type="submit" class="btn btn-primary" form="projectForm" (click)="onSubmit()">Save</button>
+  </div>
+</ng-template>

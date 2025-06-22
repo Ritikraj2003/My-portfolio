@@ -17,4 +17,24 @@ export class AuthService {
   GetAllAboutMe(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/AboutMe`);
   }
+
+
+
+  
+  AddProject(project: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/Project`, project);
+  }
+  getAllProjects(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/Project`);
+  }
+
+  GetProjectById(id: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/Project/${id}`);
+  }
+  UpdateProject(id: number, project: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/Project/${id}`, project);
+  }
+  DeleteProject(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/Project/${id}`);
+  }
 }
