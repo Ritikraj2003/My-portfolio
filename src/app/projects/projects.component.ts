@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { AuthService } from '../admin/services/auth.service';
 @Component({
   selector: 'app-projects',
   standalone: true,
@@ -23,66 +24,38 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
     ])
   ]
 })
-export class ProjectsComponent {
- projects = [
-    {
-      title: '.NET Solutions',
-      description:
-        'Developed various applications and services using .NET framework.',
-      logo: 'assets/dotnet-logo.png',
-      githubUrl: 'https://github.com/yourusername/dotnet-solutions',
-      siteUrl: 'https://your-dotnet-site.com'
-    },
-    {
-      title: 'Angular Projects',
-      description:
-        'Built responsive and dynamic web applications with Angular.',
-      logo: 'assets/angular-logo.png',
-      githubUrl: 'https://github.com/yourusername/angular-projects',
-      siteUrl: 'https://your-angular-site.com'
-    },
-    {
-      title: 'POS and Hotel Management Systems',
-      description:
-        'Designed and implemented POS and hotel management systems.',
-     
-      githubUrl: 'https://github.com/yourusername/pos-hotel-systems',
-      siteUrl: 'https://your-pos-site.com'
-    },
-    {
-      title: 'Angular Projects',
-      description:
-        'Built responsive and dynamic web applications with Angular.',
-      logo: 'assets/angular-logo.png',
-      githubUrl: 'https://github.com/yourusername/angular-projects'
-    },
-    {
-      title: 'Angular Projects',
-      description:
-        'Built responsive and dynamic web applications with Angular.',
-      logo: 'assets/angular-logo.png',
-      githubUrl: 'https://github.com/yourusername/angular-projects'
-    },
-    {
-      title: 'Angular Projects',
-      description:
-        'Built responsive and dynamic web applications with Angular.',
-      logo: 'assets/angular-logo.png',
-      githubUrl: 'https://github.com/yourusername/angular-projects'
-    },
-    {
-      title: 'Angular Projects',
-      description:
-        'Built responsive and dynamic web applications with Angular.',
-      logo: 'assets/angular-logo.png',
-      githubUrl: 'https://github.com/yourusername/angular-projects'
-    },
-    {
-      title: 'Angular Projects',
-      description:
-        'Built responsive and dynamic web applications with Angular.',
-      logo: 'assets/angular-logo.png',
-      githubUrl: 'https://github.com/yourusername/angular-projects'
-    },
-  ];
+export class ProjectsComponent implements OnInit {
+  constructor(private APiService: AuthService) {}
+
+
+  ngOnInit(): void {
+    this.GetAllProjects();
+  }
+
+  projects: any[] = [];
+
+  // Helper method to ensure URLs have a protocol (e.g., https://)
+  private ensureUrlProtocol(url: string): string {
+    if (!url || url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    return `https://${url}`;
+  }
+
+  GetAllProjects() {
+    this.APiService.getAllProjects().subscribe({
+      next: (res: any) => {
+        // Process the links to ensure they work correctly
+        this.projects = res.map((project: any) => ({
+          ...project,
+          githublink: this.ensureUrlProtocol(project.githublink),
+          websitelink: this.ensureUrlProtocol(project.websitelink),
+        }));
+        console.log('Projects fetched and links processed:', this.projects);
+      },
+      error: (err: any) => {
+        console.error('Error fetching projects:', err);
+      }
+    });
+  }
 }
