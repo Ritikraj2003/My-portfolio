@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
-import { AuthService } from '../admin/services/auth.service';
+import { environment } from '../../../environments/environment';  
+import { AuthService } from '../../admin/services/auth.service';
+
 @Component({
   selector: 'app-projects',
   standalone: true,
@@ -27,7 +29,6 @@ import { AuthService } from '../admin/services/auth.service';
 export class ProjectsComponent implements OnInit {
   constructor(private APiService: AuthService) {}
 
-
   ngOnInit(): void {
     this.GetAllProjects();
   }
@@ -42,16 +43,28 @@ export class ProjectsComponent implements OnInit {
     return `https://${url}`;
   }
 
+  // Helper to prepend API URL to a relative path, removing '/api' for static files and any trailing comma
+  private prependApiUrl(path: string): string {
+    if (!path) return '';
+    // Trim whitespace and remove trailing comma if present
+    let cleanPath = path.trim();
+    if (cleanPath.endsWith(',')) {
+      cleanPath = cleanPath.slice(0, -1);
+    }
+    cleanPath = cleanPath.startsWith('/') ? cleanPath.substring(1) : cleanPath;
+    const baseUrl = environment.apiUrl.replace('/api', '');
+    return `${baseUrl}/${cleanPath}`;
+  }
+
   GetAllProjects() {
     this.APiService.getAllProjects().subscribe({
       next: (res: any) => {
-        // Process the links to ensure they work correctly
         this.projects = res.map((project: any) => ({
           ...project,
           githublink: this.ensureUrlProtocol(project.githublink),
           websitelink: this.ensureUrlProtocol(project.websitelink),
+          logo: this.prependApiUrl(project.pLogo)
         }));
-        console.log('Projects fetched and links processed:', this.projects);
       },
       error: (err: any) => {
         console.error('Error fetching projects:', err);

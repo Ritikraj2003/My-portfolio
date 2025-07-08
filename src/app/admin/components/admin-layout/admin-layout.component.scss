@@ -22,4 +22,42 @@
 .content-area {
   flex-grow: 1;
   background-color: #f4f7f6;
+}
+
+.admin-theme {
+  background: #181f2a;
+  color: #e0f7fa;
+  min-height: 100vh;
+
+  .admin-layout {
+    background: #232b3e;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+    padding: 2rem;
+  }
+
+  .sidebar {
+    background: #222b3a;
+    color: #00eaff;
+    border-right: 2px solid #00bcd4;
+  }
+
+  .admin-header {
+    background: #00eaff;
+    color: #181f2a;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .admin-btn {
+    background: #00bcd4;
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    transition: background 0.2s;
+    &:hover {
+      background: lighten(#00bcd4, 10%);
+    }
+  }
 } 

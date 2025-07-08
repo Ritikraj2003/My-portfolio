@@ -7,6 +7,11 @@
 .card {
   border: none;
   border-radius: 0.75rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 2rem 1.5rem;
+  margin: 0;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .card-header {
@@ -25,7 +30,14 @@
   object-fit: cover;
 }
 
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .table {
+  width: 100%;
+  min-width: 900px;
   th {
     font-weight: 600;
     color: #495057;

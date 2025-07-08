@@ -14,12 +14,6 @@ export class AuthService {
   }
 
 
-  GetAllAboutMe(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/AboutMe`);
-  }
-
-
-
   
   AddProject(project: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/Project`, project);
@@ -37,4 +31,27 @@ export class AuthService {
   DeleteProject(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/Project/${id}`);
   }
+
+  //AboutMe
+  GetAllAboutMe(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/AboutMe`);
+  }
+  AddAboutMe(aboutMe: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/AboutMe`, aboutMe);
+  }
+
+  UpdateAboutMe(id: number, aboutMe: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/AboutMe/${id}`, aboutMe);
+  }
+  DeleteAboutMe(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/AboutMe/${id}`);
+  }
+  GetAboutMeById(id: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/AboutMe/${id}`);
+  }
+
+
+
+
+
 }

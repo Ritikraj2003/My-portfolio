@@ -1,0 +1,84 @@
+<div class="about-me-container">
+  <form [formGroup]="aboutMeForm" (ngSubmit)="onSubmit()" id="aboutMeForm">
+    <button *ngIf="!editMode" class="btn btn-primary mb-3" type="button" (click)="toggleEdit()">
+      Edit
+    </button>
+    <button *ngIf="editMode" class="btn btn-primary mb-3" type="submit">
+      Save
+    </button>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label>Name</label>
+        <input class="form-control" formControlName="Name" />
+      </div>
+      <div class="col-md-4">
+        <label>Email</label>
+        <input class="form-control" formControlName="Gmail" />
+      </div>
+      <div class="col-md-4">
+        <label>Phone Number</label>
+        <input class="form-control" formControlName="PhoneNumber" />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Experience</label>
+        <input class="form-control" formControlName="Experience" />
+      </div>
+      <div class="col-md-6">
+        <label>Location</label>
+        <input class="form-control" formControlName="Location" />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Bio</label>
+        <textarea class="form-control" formControlName="Bio"></textarea>
+      </div>
+      <div class="col-md-6">
+        <label>Description</label>
+        <textarea class="form-control" formControlName="Description"></textarea>
+      </div>
+    </div>
+    <div class="row mb-3 align-items-center">
+      <div class="col-md-6">
+        
+        <label>Profile Image</label>
+        <div class="upload-box" (click)="imageInput.click()">
+          <div *ngIf="!aboutMeForm.get('Image')?.value" class="upload-placeholder">
+            <i class="bi bi-image fs-1"></i>
+            <p class="mb-0">Upload Image</p>
+          </div>
+          <div *ngIf="aboutMeForm.get('Image')?.value" class="logo-preview">
+            <img [src]="aboutMeForm.get('Image')?.value" alt="Profile Image" style="max-width: 120px; margin-top: 8px;" />
+            <span class="change-logo-text">Change Image</span>
+          </div>
+        </div>
+        <input #imageInput type="file" (change)="onImageChange($event)" accept="image/*" hidden>
+      </div>
+      <div class="col-md-6">
+        <label>Resume</label>
+        <div class="upload-box" (click)="resumeInput.click()">
+          <div *ngIf="!aboutMeForm.get('Resume')?.value" class="upload-placeholder">
+            <i class="bi bi-file-earmark-pdf fs-1"></i>
+            <p class="mb-0">Upload Resume</p>
+          </div>
+          <div *ngIf="aboutMeForm.get('Resume')?.value" class="logo-preview">
+            <a [href]="aboutMeForm.get('Resume')?.value" target="_blank">View Resume</a>
+            <span class="change-logo-text">Change Resume</span>
+            <div style="margin-top: 1rem;">
+              <iframe
+                *ngIf="safeResumeUrl"
+                [src]="safeResumeUrl"
+                width="100%"
+                height="300px"
+                style="border: 1px solid #ccc; border-radius: 8px;"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+        <input #resumeInput type="file" (change)="onResumeChange($event)" accept=".pdf" hidden>
+      </div>
+    </div>
+  </form>
+</div>

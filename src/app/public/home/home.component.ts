@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router'
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
-import { AuthService } from '../admin/services/auth.service';
-import { environment } from '../../environments/environment';
+
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../admin/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -33,11 +34,14 @@ import { environment } from '../../environments/environment';
 export class HomeComponent implements OnInit {
   aboutMe: any;
   resume!: string;
+  baseUrl: string = environment.apiUrl.replace(/\/api$/, '');
+  
     constructor(private router: Router,
     private authService: AuthService
   ) {}
   ngOnInit(): void {
     this.GetAllAboutMe();
+    //const baseUrl = environment.apiUrl.replace(/\/api$/, '');
   }
 
   OnClickAbout() {
@@ -48,8 +52,29 @@ export class HomeComponent implements OnInit {
     this.authService.GetAllAboutMe().subscribe((res) => {
       console.log(res);
       this.aboutMe = res;
-      this.resume = environment.apiUrl + this.aboutMe[0].resume;
+      this.resume = this.aboutMe[0].resumeFile ? this.baseUrl + this.aboutMe[0].resumeFile : '';
       sessionStorage.setItem('name', this.aboutMe[0].name);
     });
   }
+
+
+downloadResume() {
+  debugger
+  fetch(this.resume, { mode: 'cors' })
+    .then(response => response.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Ritik_Resume.pdf'; // You can set a custom file name here
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    })
+    .catch(() => alert('Failed to download resume.'));
 }
+
+}
+
+// "resumeFile": "/Uploads/Resume/daa2224b-1e86-44d0-9a45-d9a6fe0828a8.pdf",

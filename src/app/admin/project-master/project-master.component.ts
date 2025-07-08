@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../services/auth.service';
+import { environment } from '../../../environments/environment';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-project-master',
@@ -15,11 +17,17 @@ export class ProjectMasterComponent implements OnInit {
   projects: any[] = [];
   projectForm!: FormGroup;
   logoPreview: string | ArrayBuffer | null = null;
+  baseUrl: string = environment.apiUrl.replace(/\/api$/, '');
+  editingProject: any = null;
+  reportPreview: string | null = null;
+  safeReportPreview: SafeResourceUrl | null = null;
+  
 
   constructor( private fb: FormBuilder, 
     private modalService: NgbModal,
     private ngbModal: NgbModalModule,
     private APiService: AuthService
+    , private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +48,45 @@ export class ProjectMasterComponent implements OnInit {
     this.projectForm.reset();
     this.logoPreview = null;
     this.modalService.open(content, { size: 'lg', centered: true, backdrop: 'static' });
+  }
+
+  async editProject(project: any, content: TemplateRef<any>) {
+    this.editingProject = project;
+    this.modalService.open(content, { size: 'lg', centered: true, backdrop: 'static' });
+
+    this.projectForm.patchValue({   
+      title: project.title,
+      subTitle: project.subTitle,
+      description: project.description,
+      websiteLink: project.websitelink,
+      githubLink: project.githublink,
+      logo: null,
+      reportPdf: null
+    });
+
+    // Handle logo preview and patch
+    let logoUrl = project.pLogo;
+    if (logoUrl && !logoUrl.startsWith('http')) {
+      logoUrl = this.baseUrl + logoUrl;
+    }
+    this.logoPreview = logoUrl;
+    if (logoUrl) {
+      const logoFile = await this.urlToFile(logoUrl, 'logo.jpg');
+      this.projectForm.patchValue({ logo: logoFile });
+    }
+
+    // Handle report PDF preview and patch
+    debugger;
+    let reportUrl = project.reportP;
+    if (reportUrl && !reportUrl.startsWith('http')) {
+      reportUrl = this.baseUrl + reportUrl;
+    }
+    this.reportPreview = reportUrl;
+    this.safeReportPreview = reportUrl ? this.sanitizer.bypassSecurityTrustResourceUrl(reportUrl) : null;
+    if (reportUrl) {
+      const reportFile = await this.urlToFile(reportUrl, 'report.pdf');
+      this.projectForm.patchValue({ reportPdf: reportFile });
+    }
   }
 
   onFileChange(event: Event) {
@@ -63,7 +110,7 @@ export class ProjectMasterComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.projectForm.valid) {
       const formData = new FormData();
       formData.append('Title', this.projectForm.get('title')?.value);
@@ -72,29 +119,47 @@ export class ProjectMasterComponent implements OnInit {
       formData.append('Websitelink', this.projectForm.get('websiteLink')?.value);
       formData.append('githublink', this.projectForm.get('githubLink')?.value);
 
-      // Use correct keys for files as expected by backend
+      // Handle logo
       const logoFile = this.projectForm.get('logo')?.value;
       if (logoFile) {
-        formData.append('Logo', logoFile); // <-- must match model property
+        formData.append('Logo', logoFile);
+      } else if (this.editingProject && this.logoPreview) {
+        // Convert the preview URL to a File and append
+        const file = await this.urlToFile(this.logoPreview as string, 'logo.jpg');
+        formData.append('Logo', file);
       }
 
+      // Handle report
       const reportFile = this.projectForm.get('reportPdf')?.value;
       if (reportFile) {
-        formData.append('report', reportFile); // <-- must match model property
+        formData.append('report', reportFile);
       }
 
-      this.APiService.AddProject(formData).subscribe({
-        next: (res: any) => {
-          this.modalService.dismissAll();
-          console.log('Project added successfully:', res);
-          this.projectForm.reset();
-        }
-      });
+      if (this.editingProject) {
+        // Update existing project
+        this.APiService.UpdateProject(this.editingProject.id, formData).subscribe({
+          next: (res: any) => {
+            this.modalService.dismissAll();
+            this.projectForm.reset();
+            this.editingProject = null;
+            this.GetAllProjects();
+          }
+        });
+      } else {
+        // Add new project
+        this.APiService.AddProject(formData).subscribe({
+          next: (res: any) => {
+            this.modalService.dismissAll();
+            this.projectForm.reset();
+            this.GetAllProjects();
+          }
+        });
+      }
     } else {
       console.log('Form is invalid.');
     }
   }
-    GetAllProjects() {
+ GetAllProjects() {
     this.APiService.getAllProjects().subscribe({
       next: (res: any) => {
         this.projects = res;
@@ -118,4 +183,10 @@ DeleteProject(id: number) {
   });
 }
 
+  // Helper function to convert image URL to File
+  private async urlToFile(url: string, filename: string): Promise<File> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], filename, { type: blob.type });
+  }
 }

@@ -1,5 +1,5 @@
 <div class="about-container" @fadeInStagger>
-  <img src="assets/Ritik_image.jpg" alt="Ritik Raj" class="profile-pic" />
+  <img [src]="image" alt="Ritik Raj" class="profile-pic" />
 
   <h2>About Me</h2>
 
@@ -22,7 +22,7 @@
     <div><strong>Experience:</strong> Fresher</div>
   </div>
 
-  <a href="assets/Ritik_Resume.pdf" download>
-    <button class="download-btn">Download Resume</button>
-  </a>
+  
+    <button class="download-btn" (click)="downloadResume()">Download Resume</button>
+  
 </div>

@@ -1,12 +1,10 @@
 <div class="home-container" >
   <section class="hero" data-aos="fade-up" @fadeInUp>
-    <h2>Hi, I'm <span class="highlight">{{aboutMe[0].name}}</span>,<br /><span class="title">.NET & Angular Developer</span></h2>
+    <h2>Hi, I'm <span class="highlight">Ritik Raj</span>,<br /><span class="title">.NET & Angular Developer</span></h2>
     <p>I specialize in building fast, responsive, and modern web applications.</p>
    
     <div class="hero-actions">
-      <a href="assets\Ritik_Resume.pdf" download>
-        <button class="resume-btn">📄 Download Resume</button>
-      </a>
+        <button class="resume-btn" (click)="downloadResume()">📄 Download Resume</button>
       <a (click)="OnClickAbout()">
         <button class="contact-btn">📬 Contact Me</button>
       </a>
