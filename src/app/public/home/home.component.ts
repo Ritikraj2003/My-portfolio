@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
   GetAllAboutMe() {
     this.authService.GetAllAboutMe().subscribe((res) => {
       console.log(res);
-      this.aboutMe = res;
+      this.aboutMe = res.data;
       this.resume = this.aboutMe[0].resumeFile ? this.baseUrl + this.aboutMe[0].resumeFile : '';
       sessionStorage.setItem('name', this.aboutMe[0].name);
     });

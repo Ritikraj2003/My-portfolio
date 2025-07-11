@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { AuthService } from '../../admin/services/auth.service';
 @Component({
   selector: 'app-skills',
   standalone: true,
@@ -28,12 +29,29 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
   ]
 })
 
-export class SkillsComponent {
+export class SkillsComponent implements OnInit {
 
-skills = [
+ skills: any[] = []; // Initialize as an empty array  
+  constructor(
+    private authService: AuthService
+  ) { }
+  
+ngOnInit(): void {
+  this.GetAllSkills();
+}
+
+StaticSkill = [
     'Angular', 'TypeScript', 'JavaScript',
     '.NET Core', 'C#', 'Entity Framework',
     'SQL Server', 'HTML', 'CSS', 'SCSS',
     'REST API', 'Git', 'Azure'
   ];
+GetAllSkills() {
+  this.authService.GetALlSkils().subscribe({
+    next: (res: any) => {
+      this.skills = res.data
+      console.log(this.skills);
+    }
+  });
+}
 }

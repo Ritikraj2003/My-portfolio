@@ -1,6 +1,11 @@
 <section class="skills" @skillAnimation>
   <h2>Skills</h2>
   <div class="skill-list">
-    <span class="skill" *ngFor="let skill of skills">{{ skill }}</span>
+
+    <span class="skill" *ngFor="let skill of skills.length === 0 ? StaticSkill : skills">
+  {{ skills.length === 0 ? skill : skill.skills }}
+</span>
+
+
   </div>
 </section>

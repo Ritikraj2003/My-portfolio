@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { environment } from '../../../environments/environment';  
 import { AuthService } from '../../admin/services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-projects',
@@ -27,13 +28,27 @@ import { AuthService } from '../../admin/services/auth.service';
   ]
 })
 export class ProjectsComponent implements OnInit {
-  constructor(private APiService: AuthService) {}
+  constructor(private APiService: AuthService, private modalService: NgbModal) {}
+
+  @ViewChild('descModal') descModal!: TemplateRef<any>;
+  fullDescription: string = '';
+  selectedProject: any = null;
 
   ngOnInit(): void {
     this.GetAllProjects();
   }
 
   projects: any[] = [];
+
+  openDescriptionModal(project: any) {
+    this.selectedProject = project;
+    this.fullDescription = project.description;
+    this.modalService.open(this.descModal, { size: 'md', centered: true });
+  }
+
+  isTruncated(element: HTMLElement): boolean {
+    return element.scrollHeight > element.clientHeight + 1;
+  }
 
   // Helper method to ensure URLs have a protocol (e.g., https://)
   private ensureUrlProtocol(url: string): string {
@@ -59,7 +74,7 @@ export class ProjectsComponent implements OnInit {
   GetAllProjects() {
     this.APiService.getAllProjects().subscribe({
       next: (res: any) => {
-        this.projects = res.map((project: any) => ({
+        this.projects = res.data.map((project: any) => ({
           ...project,
           githublink: this.ensureUrlProtocol(project.githublink),
           websitelink: this.ensureUrlProtocol(project.websitelink),

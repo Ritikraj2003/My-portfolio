@@ -162,7 +162,7 @@ export class ProjectMasterComponent implements OnInit {
  GetAllProjects() {
     this.APiService.getAllProjects().subscribe({
       next: (res: any) => {
-        this.projects = res;
+        this.projects = res.data;
         console.log('Projects fetched successfully:', this.projects);
       },
       error: (err: any) => {

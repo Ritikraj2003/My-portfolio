@@ -1,7 +1,7 @@
 <section class="projects" @staggerProjects>
   <h2>Recent Projects</h2>
   <div class="project-list">
-    <div class="project" *ngFor="let project of projects" [class.no-logo]="!project.logo">
+    <div class="project" *ngFor="let project of projects; let i = index" [class.no-logo]="!project.logo">
       <div class="project-circle" *ngIf="project.logo">
         <img [src]="project.logo" [alt]="project.title + ' logo'" class="project-logo">
       </div>
@@ -16,7 +16,28 @@
           <img src="assets/Site_icon.png" alt="Live site" class="site-icon">
         </a>
       </div>
-      <p>{{ project.description }}</p>
+      <div class="project-content">
+        <p
+          class="description"
+          #descElem
+          [ngClass]="{ 'clickable': isTruncated(descElem) }"
+          (click)="isTruncated(descElem) && openDescriptionModal(project)"
+          title="Click to view full description"
+        >
+          {{ project.description }}
+        </p>
+      </div>
     </div>
   </div>
 </section>
+
+<ng-template #descModal let-modal>
+  <div class="desc-modal-card">
+    <button type="button" class="btn-close desc-modal-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <img *ngIf="selectedProject?.logo" [src]="selectedProject.logo" alt="Project Logo" class="desc-modal-logo-center" />
+    <h5 class="desc-modal-title-center">{{ selectedProject?.title }}</h5>
+    <div class="desc-modal-body-center">
+      <p>{{ fullDescription }}</p>
+    </div>
+  </div>
+</ng-template>

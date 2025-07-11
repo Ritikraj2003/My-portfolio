@@ -51,7 +51,11 @@ export class AuthService {
   }
 
 
+//SkillS
 
+GetALlSkils(): Observable<any> {
+  return this.http.get(`${environment.apiUrl}/Skill`); 
+}
 
 
 }
