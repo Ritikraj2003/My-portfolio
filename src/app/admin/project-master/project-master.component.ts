@@ -20,7 +20,7 @@ export class ProjectMasterComponent implements OnInit {
   baseUrl: string = environment.apiUrl.replace(/\/api$/, '');
   editingProject: any = null;
   reportPreview: string | null = null;
-  safeReportPreview: SafeResourceUrl | null = null;
+  safeReportUrl: SafeResourceUrl | null = null;
   
 
   constructor( private fb: FormBuilder, 
@@ -82,7 +82,7 @@ export class ProjectMasterComponent implements OnInit {
       reportUrl = this.baseUrl + reportUrl;
     }
     this.reportPreview = reportUrl;
-    this.safeReportPreview = reportUrl ? this.sanitizer.bypassSecurityTrustResourceUrl(reportUrl) : null;
+    this.safeReportUrl = reportUrl ? this.sanitizer.bypassSecurityTrustResourceUrl(reportUrl) : null;
     if (reportUrl) {
       const reportFile = await this.urlToFile(reportUrl, 'report.pdf');
       this.projectForm.patchValue({ reportPdf: reportFile });
@@ -107,6 +107,9 @@ export class ProjectMasterComponent implements OnInit {
     if (input.files && input.files[0]) {
       const file = input.files[0];
       this.projectForm.patchValue({ reportPdf: file });
+      const fileUrl = URL.createObjectURL(file);
+      this.reportPreview = fileUrl;
+      this.safeReportUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrl);
     }
   }
 

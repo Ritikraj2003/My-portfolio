@@ -107,8 +107,27 @@
         </div>
 
         <div class="mb-3">
-          <label for="reportPdf" class="form-label">Report PDF</label>
-         <input type="file" id="reportPdf" class="form-control" accept=".pdf" (change)="onReportFileChange($event)">
+          <label>Report PDF</label>
+          <div class="upload-box" (click)="reportInput.click()">
+            <div *ngIf="!projectForm.get('reportPdf')?.value" class="upload-placeholder">
+              <i class="bi bi-file-earmark-pdf fs-1"></i>
+              <p class="mb-0">Upload Report</p>
+            </div>
+            <div *ngIf="projectForm.get('reportPdf')?.value" class="logo-preview">
+              <a [href]="reportPreview" target="_blank">View Report</a>
+              <span class="change-logo-text">Change Report</span>
+              <div style="margin-top: 1rem;">
+                <iframe
+                  *ngIf="safeReportUrl"
+                  [src]="safeReportUrl"
+                  width="100%"
+                  height="300px"
+                  style="border: 1px solid #ccc; border-radius: 8px;"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <input #reportInput type="file" (change)="onReportFileChange($event)" accept=".pdf" hidden>
         </div>
       </form>
     </div>

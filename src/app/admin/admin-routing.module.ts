@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 import { ProjectMasterComponent } from './project-master/project-master.component';
 import { AboutMeComponent } from './about-me/about-me.component';
+import { SkillComponent } from './skill/skill.component';
 
 export const ADMIN_ROUTES: Routes = [
   // Public-facing route
@@ -19,6 +20,7 @@ export const ADMIN_ROUTES: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'project-master', component: ProjectMasterComponent },
       { path: 'about-me', component: AboutMeComponent },
+      { path: 'skills', component: SkillComponent },
       // Add other protected admin routes here with the guard
       
       // Redirect to dashboard by default if authenticated

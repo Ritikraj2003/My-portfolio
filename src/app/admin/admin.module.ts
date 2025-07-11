@@ -11,10 +11,12 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProjectMasterComponent } from './project-master/project-master.component';
+import { SkillComponent } from './skill/skill.component';
 
 @NgModule({
   declarations: [
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    SkillComponent
   ],
   imports: [
     CommonModule,
@@ -27,11 +29,6 @@ import { ProjectMasterComponent } from './project-master/project-master.componen
     ProjectMasterComponent
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
   ]
 })
 export class AdminModule { }

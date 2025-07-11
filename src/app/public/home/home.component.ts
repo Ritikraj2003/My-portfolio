@@ -4,6 +4,7 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../admin/services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -37,7 +38,8 @@ export class HomeComponent implements OnInit {
   baseUrl: string = environment.apiUrl.replace(/\/api$/, '');
   
     constructor(private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private http: HttpClient
   ) {}
   ngOnInit(): void {
     this.GetAllAboutMe();
@@ -59,20 +61,19 @@ export class HomeComponent implements OnInit {
 
 
 downloadResume() {
-  debugger
-  fetch(this.resume, { mode: 'cors' })
-    .then(response => response.blob())
-    .then(blob => {
+  this.http.get(this.resume, { responseType: 'blob' }).subscribe({
+    next: (blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Ritik_Resume.pdf'; // You can set a custom file name here
+      a.download = 'Ritik_Resume.pdf';
       document.body.appendChild(a);
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
-    })
-    .catch(() => alert('Failed to download resume.'));
+    },
+    error: () => alert('Failed to download resume.')
+  });
 }
 
 }

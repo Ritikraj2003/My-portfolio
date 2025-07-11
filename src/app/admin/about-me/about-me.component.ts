@@ -129,8 +129,8 @@ export class AboutMeComponent implements OnInit {
 
   GetAllAboutMe() {
     this.APiService.GetAllAboutMe().subscribe((res: any) => {
-      if (Array.isArray(res) && res.length > 0) {
-        const data = res[0];
+      if (Array.isArray(res.data) && res.data.length > 0) {
+        const data = res.data[0];
         
         const resumeUrl = data.resumeFile ? this.baseUrl + data.resumeFile : '';
         this.id = data.id;

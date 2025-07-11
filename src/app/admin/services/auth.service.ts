@@ -57,5 +57,18 @@ GetALlSkils(): Observable<any> {
   return this.http.get(`${environment.apiUrl}/Skill`); 
 }
 
+Addskill(skill:any):Observable<any>{
+  return this.http.post(`${environment.apiUrl}/Skill`,skill)
+}
+
+deleteSkill(id: number): Observable<any> {
+  return this.http.delete(`${environment.apiUrl}/Skill/${id}`);
+}
+
+
+  // Download any file as a blob (goes through interceptor)
+  downloadFile(fileUrl: string): Observable<Blob> {
+    return this.http.get(fileUrl, { responseType: 'blob' });
+  }
 
 }
