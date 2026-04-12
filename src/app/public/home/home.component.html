@@ -1,31 +1,77 @@
-<div class="home-container" >
-  <section class="hero" data-aos="fade-up" @fadeInUp>
-    <h2>Hi, I'm <span class="highlight">Ritik Raj</span>,<br /><span class="title">.NET & Angular Developer</span></h2>
-    <p>I specialize in building fast, responsive, and modern web applications.</p>
-   
-    <div class="hero-actions">
-        <button class="resume-btn" (click)="downloadResume()">📄 Download Resume</button>
-      <a (click)="OnClickAbout()">
-        <button class="contact-btn">📬 Contact Me</button>
-      </a>
+<section class="home">
+  <div class="home-content">
+    <h3>Hi, It's Me</h3>
+    <h1>I'm <span>Ritik Raj</span></h1>
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+    
+    <div class="social-media">
+      <a href="#"><i class="bi bi-github"></i></a>
+      <a href="#"><i class="bi bi-instagram"></i></a>
+      <a href="#"><i class="bi bi-linkedin"></i></a>
+      <a href="#"><i class="bi bi-facebook"></i></a>
     </div>
-  </section>
+    
+    <a (click)="downloadResume()" class="btn">Download Resume</a>
+  </div>
 
-  <section class="projects" data-aos="fade-up" @staggerProjects>
-    <h3>💻 Recent Development Projects</h3>
-    <div class="cards">
-      <div class="card" data-aos="zoom-in" data-aos-delay="100">
-        <h4>.NET Solutions</h4>
-        <p>Developed scalable applications and APIs using .NET and C#.</p>
-      </div>
-      <div class="card" data-aos="zoom-in" data-aos-delay="200">
-        <h4>Angular Projects</h4>
-        <p>Created SPA apps with dynamic UIs using Angular and TypeScript.</p>
-      </div>
-      <div class="card" data-aos="zoom-in" data-aos-delay="300">
-        <h4>POS & Hotel Systems</h4>
-        <p>Designed and deployed complete POS and hotel management solutions.</p>
+  <div class="home-img">
+    <div class="blob"></div>
+    <img src="assets/hero-portrait.png" alt="Ritik Raj">
+  </div>
+</section>
+
+<section class="about">
+  <div class="about-img">
+    <div class="img-box">
+      <img src="assets/about-portrait.png" alt="Ritik Raj About Image">
+    </div>
+    <span class="circle-spin"></span>
+  </div>
+
+  <div class="about-content">
+    <h2 class="heading">About <span>Me</span></h2>
+    <h3>Full Stack Developer!</h3>
+    <p>I am a skilled web designer with over 3 years of experience in the industry. My passion is creating captivating website designs and implementing them through frontend development. I take pride in staying up-to-date with current design trends and leveraging my creativity to produce visually appealing and user-friendly websites. Throughout my career, I have developed a deep understanding of user experience (UX) and user interface (UI) principles. By putting myself in the shoes of the end-users, I strive to create intuitive and seamless browsing experiences. I believe that a well-designed website should not only look visually appealing but also provide a smooth and enjoyable interaction for visitors. When starting a new project, I thoroughly research and analyze the target audience and the client's specific requirements. This enables me to tailor my designs to meet their expectations and deliver a unique online presence that aligns with their brand identity..</p>
+    
+    <a href="#" class="btn">More About Me</a>
+  </div>
+</section>
+
+<section class="services">
+  <h2 class="heading">My <span>Services</span></h2>
+
+  <div class="services-carousel" (mouseenter)="stopAutoSlide()" (mouseleave)="startAutoSlide()">
+    <button class="nav-btn prev" (click)="prevSlide()" *ngIf="services.length > 3">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <div class="slider-viewport">
+      <div class="services-container" [style.transform]="getTransform()">
+        <div class="services-box" *ngFor="let service of services">
+          <i class="bi" [ngClass]="service.icon"></i>
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.description }}</p>
+          <a href="#" class="btn">Read More</a>
+        </div>
       </div>
     </div>
-  </section>
-</div>
+
+    <button class="nav-btn next" (click)="nextSlide()" *ngIf="services.length > 3">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</section>
+
+<section class="skills">
+  <h2 class="heading">My <span>Skills</span></h2>
+
+  <div class="skills-playground" #skillsContainer>
+    <div 
+      *ngFor="let skill of skills; let i = index" 
+      class="skill-box" 
+      [id]="'skill-' + i"
+    >
+      {{ skill }}
+    </div>
+  </div>
+</section>
