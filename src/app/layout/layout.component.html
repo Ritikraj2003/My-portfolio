@@ -6,11 +6,13 @@
   <i class="bi" [ngClass]="isMobileMenuOpen ? 'bi-x' : 'bi-list'" id="menu-icon" (click)="toggleMobileMenu()"></i>
 
   <nav class="navbar" [class.active]="isMobileMenuOpen">
-    <a routerLink="/home" routerLinkActive="active" (click)="closeMobileMenu()">Home</a>
-    <a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">About</a>
-    <a routerLink="/skills" routerLinkActive="active" (click)="closeMobileMenu()">Skills</a>
-    <a routerLink="/portfolio" routerLinkActive="active" (click)="closeMobileMenu()">Portfolio</a>
-    <a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact</a>
+    <a href="#home" (click)="closeMobileMenu()">Home</a>
+    <a href="#about" (click)="closeMobileMenu()">About</a>
+    <a href="#services" (click)="closeMobileMenu()">Services</a>
+    <a href="#skills" (click)="closeMobileMenu()">Skills</a>
+    <a href="#projects" (click)="closeMobileMenu()">Projects</a>
+    <a href="#contact" (click)="closeMobileMenu()">Contact</a>
+
   </nav>
 </header>
 

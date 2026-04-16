@@ -32,6 +32,8 @@ html, body {
   color: white;
   font-family: 'Segoe UI', sans-serif;
   overflow-x: hidden; /* Prevent horizontal scroll */
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 /* Responsive breakpoints */

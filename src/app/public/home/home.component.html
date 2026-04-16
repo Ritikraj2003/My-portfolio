@@ -1,4 +1,4 @@
-<section class="home">
+<section class="home" id="home">
   <div class="home-content">
     <h3>Hi, It's Me</h3>
     <h1>I'm <span>Ritik Raj</span></h1>
@@ -7,7 +7,7 @@
     <div class="social-media">
       <a href="https://github.com/Ritikraj2003" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
       <a href="#"><i class="bi bi-instagram"></i></a>
-      <a href="https://www.linkedin.com/in/ritik-raj-418371276/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+      <a  href="https://www.linkedin.com/in/ritik-raj-418371276/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
       <a href="#"><i class="bi bi-facebook"></i></a>
     </div>
     
@@ -20,7 +20,7 @@
   </div>
 </section>
 
-<section class="about">
+<section class="about" id="about">
   <div class="about-img">
     <div class="img-box">
       <img src="assets/about-portrait.png" alt="Ritik Raj About Image">
@@ -37,41 +37,143 @@
   </div>
 </section>
 
-<section class="services">
+<section class="services" id="services">
   <h2 class="heading">My <span>Services</span></h2>
 
-  <div class="services-carousel" (mouseenter)="stopAutoSlide()" (mouseleave)="startAutoSlide()">
-    <button class="nav-btn prev" (click)="prevSlide()" *ngIf="services.length > 3">
-      <i class="bi bi-chevron-left"></i>
-    </button>
+  <div class="services-container">
+    <div class="services-box" *ngFor="let service of services">
+      <i class="bi" [ngClass]="service.icon"></i>
+      <h3>{{ service.title }}</h3>
+      <p>{{ service.description }}</p>
+      <a href="#" class="btn">Read More</a>
+    </div>
+  </div>
+</section>
 
-    <div class="slider-viewport">
-      <div class="services-container" [style.transform]="getTransform()">
-        <div class="services-box" *ngFor="let service of services">
-          <i class="bi" [ngClass]="service.icon"></i>
-          <h3>{{ service.title }}</h3>
-          <p>{{ service.description }}</p>
-          <a href="#" class="btn">Read More</a>
+
+<section class="skills" id="skills">
+  <h2 class="heading">My <span>Skills</span></h2>
+
+  <div class="skills-container">
+
+    <!-- Left Column: Technical Stack -->
+    <div class="tech-stack">
+      <div class="category-box" *ngFor="let category of skillCategories">
+        <div class="category-title">
+          <i class="bi" [ngClass]="category.icon"></i>
+          <span>{{ category.name }}</span>
+        </div>
+        <div class="tags-container">
+          <div class="skill-tag" *ngFor="let skill of category.skills">
+            <span class="dot"></span>
+            {{ skill }}
+          </div>
         </div>
       </div>
     </div>
 
-    <button class="nav-btn next" (click)="nextSlide()" *ngIf="services.length > 3">
-      <i class="bi bi-chevron-right"></i>
-    </button>
+    <!-- Right Column: Soft Capabilities -->
+    <div class="soft-capabilities">
+      <div class="capabilities-card">
+        <h3>Soft Capabilities</h3>
+        <div class="charts-grid">
+          <div class="chart-box" *ngFor="let cap of softCapabilities">
+            <div class="circle-chart">
+              <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg"
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path class="circle"
+                  [attr.stroke]="cap.color"
+                  [attr.stroke-dasharray]="cap.percentage + ', 100'"
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <text x="18" y="20.35" class="percentage">{{ cap.percentage }}%</text>
+              </svg>
+            </div>
+            <span class="cap-name">{{ cap.name }}</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <i class="bi bi-info-circle-fill"></i>
+          <span>Values derived from peer evaluations and professional milestone completion metrics.</span>
+        </div>
+      </div>
+    </div>
   </div>
-</section>
 
-<section class="skills">
-  <h2 class="heading">My <span>Skills</span></h2>
+<section class="projects" id="projects">
+  <h2 class="heading">Our <span>Projects</span></h2>
 
-  <div class="skills-playground" #skillsContainer>
-    <div 
-      *ngFor="let skill of skills; let i = index" 
-      class="skill-box" 
-      [id]="'skill-' + i"
-    >
-      {{ skill }}
+  <div class="projects-container">
+    <div class="projects-box" *ngFor="let project of projects">
+      <img [src]="project.img" [alt]="project.title">
+      <div class="projects-layer">
+        <h4>{{ project.title }}</h4>
+        <p>
+          {{ project.isExpanded ? project.des : (project.des | slice:0:120) + (project.des.length > 120 ? '...' : '') }}
+          <span *ngIf="project.des.length > 120" class="read-more" (click)="toggleExpansion(project, $event)">
+            {{ project.isExpanded ? ' Read Less' : ' more' }}
+          </span>
+        </p>
+
+        <a [href]="project.url" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right"></i></a>
+      </div>
+
+
     </div>
   </div>
 </section>
+
+<section class="contact" id="contact">
+  <h2 class="heading">Contact <span>Me</span></h2>
+
+  <div class="contact-container">
+    <div class="contact-info">
+      <h3>Let's Work Together</h3>
+
+      <p>
+        I'm currently available for freelance work or full-time positions. 
+        If you have a project that needs some creative touch or just want to say hi, feel free to reach out!
+      </p>
+
+      <div class="contact-list">
+        <div class="contact-item">
+          <i class="bi bi-send-fill"></i>
+          <span>contact&commat;gmail.com</span>
+        </div>
+        <div class="contact-item">
+          <i class="bi bi-telephone-fill"></i>
+          <span>+91 0123456789</span>
+        </div>
+      </div>
+
+      <div class="social-media">
+        <a href="https://github.com/Ritikraj2003" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/ritik-raj-418371276/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+        <a href="#"><i class="bi bi-facebook"></i></a>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <form (submit)="onSubmitContact($event)">
+        <div class="input-box">
+          <input type="text" placeholder="Enter Your Name" required>
+          <input type="email" placeholder="Enter Your Email" required>
+        </div>
+        <div class="input-box">
+          <input type="text" placeholder="Enter Your Subject" required>
+        </div>
+        <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter Your Message" required></textarea>
+        
+        <button type="submit" class="btn submit-btn">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+
