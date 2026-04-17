@@ -23,6 +23,14 @@ interface Project {
   isExpanded?: boolean;
 }
 
+interface Feedback {
+  name: string;
+  designation: string;
+  rating: number;
+  image: string;
+  review: string;
+}
+
 
 @Component({
   selector: 'app-home',
@@ -76,6 +84,33 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     { id: 3, title: 'Web Development', des: 'Scalable e-commerce solutions with seamless payment integrations. Built to handle high traffic and provide a secure shopping experience for customers worldwide.', img: 'assets/project3.png', url: 'https://ritikraj2003.github.io/mbr/home', isExpanded: false }
   ];
 
+  feedbacks: Feedback[] = [
+    {
+      name: 'Ajeet Singh',
+      designation: 'Managing Director, UXB Express',
+      rating: 5,
+      image: 'assets/project1.png',
+      review: 'Ritik delivered an exceptional logistics dashboard. The performance is outstanding and the UI is exactly what we needed for our operations.'
+    },
+    {
+      name: 'Vikas Kumar',
+      designation: 'Founder, Om Structure',
+      rating: 5,
+      image: 'assets/project2.png',
+      review: 'Highly skilled developer! The architectural website he built for us is both beautiful and functional. Very impressed with the attention to detail.'
+    },
+    {
+      name: 'Sneha Kumari',
+      designation: 'Project Lead, MBR',
+      rating: 4,
+      image: 'assets/project3.png',
+      review: 'Great experience working with Ritik. He is very responsive and solved complex technical challenges during the development of our platform.'
+    }
+  ];
+
+  currentFeedbackIndex: number = 0;
+  private feedbackInterval: any;
+
 
   constructor(private router: Router,
     private authService: AuthService,
@@ -100,12 +135,37 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.GetAllAboutMe();
     this.typeRole();
+    this.startFeedbackTimer();
   }
 
   ngAfterViewInit(): void {
   }
 
   ngOnDestroy(): void {
+    if (this.feedbackInterval) {
+      clearInterval(this.feedbackInterval);
+    }
+  }
+
+  startFeedbackTimer() {
+    this.feedbackInterval = setInterval(() => {
+      this.nextFeedback();
+    }, 5000);
+  }
+
+  nextFeedback() {
+    this.currentFeedbackIndex = (this.currentFeedbackIndex + 1) % this.feedbacks.length;
+  }
+
+  prevFeedback() {
+    this.currentFeedbackIndex = (this.currentFeedbackIndex - 1 + this.feedbacks.length) % this.feedbacks.length;
+  }
+
+  goToFeedback(index: number) {
+    this.currentFeedbackIndex = index;
+    // Reset timer on manual jump
+    clearInterval(this.feedbackInterval);
+    this.startFeedbackTimer();
   }
 
   typeRole(): void {
@@ -138,6 +198,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     event.preventDefault();
     event.stopPropagation();
     project.isExpanded = !project.isExpanded;
+  }
+
+  getStars(rating: number): number[] {
+    return Array(rating).fill(0);
   }
 
   // --- Existing Methods ---

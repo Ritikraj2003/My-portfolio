@@ -19,9 +19,19 @@
   </div>
 
   <div class="home-img">
-    <div class="blob"></div>
-    <img src="assets/hero-portrait.png" alt="Ritik Raj">
+    <div class="img-box">
+      <img src="assets/hero-portrait.png" alt="Ritik Raj">
+    </div>
+    <div class="orbit-icons">
+      <div class="icon-item" style="--i:1;"><i class="bi bi-share-fill"></i></div>
+      <div class="icon-item" style="--i:2;"><i class="bi bi-cpu-fill"></i></div>
+      <div class="icon-item" style="--i:3;"><i class="bi bi-code-square"></i></div>
+      <div class="icon-item" style="--i:4;"><i class="bi bi-filetype-html"></i></div>
+      <div class="icon-item" style="--i:5;"><i class="bi bi-filetype-css"></i></div>
+      <div class="icon-item" style="--i:6;"><i class="bi bi-filetype-js"></i></div>
+    </div>
   </div>
+
 </section>
 
 <section class="about" id="about">
@@ -131,7 +141,49 @@
     </div>
   </section>
 
+  <section class="testimonials" id="testimonials">
+    <h2 class="heading">Client <span>Testimonials</span></h2>
+
+    <div class="testimonials-container">
+      <div class="testimonial-wrapper">
+        <button class="nav-btn prev" (click)="prevFeedback(); $event.stopPropagation()"><i class="bi bi-chevron-left"></i></button>
+        
+        <div class="testimonial-card active" *ngIf="feedbacks.length > 0">
+          <div class="testimonial-header">
+            <div class="client-info">
+              <img [src]="feedbacks[currentFeedbackIndex].image" [alt]="feedbacks[currentFeedbackIndex].name">
+              <div>
+                <h3>{{ feedbacks[currentFeedbackIndex].name }}</h3>
+                <p>{{ feedbacks[currentFeedbackIndex].designation }}</p>
+              </div>
+            </div>
+            <div class="rating">
+              <i class="bi bi-star-fill" *ngFor="let star of getStars(feedbacks[currentFeedbackIndex].rating)"></i>
+              <i class="bi bi-star" *ngFor="let star of getStars(5 - feedbacks[currentFeedbackIndex].rating)"></i>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <i class="bi bi-quote"></i>
+            <p>{{ feedbacks[currentFeedbackIndex].review }}</p>
+          </div>
+        </div>
+
+        <button class="nav-btn next" (click)="nextFeedback(); $event.stopPropagation()"><i class="bi bi-chevron-right"></i></button>
+      </div>
+
+
+      <div class="testimonial-dots">
+        <span *ngFor="let dot of feedbacks; let i = index" 
+              [class.active]="i === currentFeedbackIndex"
+              (click)="goToFeedback(i)">
+        </span>
+      </div>
+    </div>
+  </section>
+
+
   <section class="contact" id="contact">
+
     <h2 class="heading">Contact <span>Me</span></h2>
 
     <div class="contact-container">
