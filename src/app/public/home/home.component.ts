@@ -38,12 +38,22 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   aboutMe: any;
   resume!: string;
   baseUrl: string = environment.apiUrl.replace(/\/api$/, '');
+  
+  // Typing Effect Data
+  roles: string[] = ['Full Stack Developer', 'Problem Solver', 'Web Enthusiast'];
+  displayedRole: string = '';
+  private roleIndex: number = 0;
+  private charIndex: number = 0;
+  private isDeleting: boolean = false;
+  private typingSpeed: number = 100;
+  private deleteSpeed: number = 50;
+  private pauseBetweenRoles: number = 2000;
 
   // Services Data
   services: Service[] = [
-    { icon: 'bi-code-slash', title: 'UI/UX Design', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur possimus voluptate iste temporibus impedit reiciendis.' },
-    { icon: 'bi-crop', title: 'Web Design', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur possimus voluptate iste temporibus impedit reiciendis.' },
-    { icon: 'bi-apple', title: 'App Design', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur possimus voluptate iste temporibus impedit reiciendis.' }
+    { icon: 'bi-palette', title: 'UI/UX Design', description: 'Crafting intuitive and visually stunning user interfaces that provide seamless and engaging digital experiences for your users.' },
+    { icon: 'bi-laptop', title: 'Web Application', description: 'Building robust, scalable, and high-performance web applications using modern frameworks tailored to your business goals.' },
+    { icon: 'bi-graph-up-arrow', title: 'SEO (Digital Marketing)', description: 'Optimizing your online presence to rank higher in search results, drive organic traffic, and grow your brand visibility.' }
   ];
 
   skillCategories = [
@@ -54,10 +64,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
 
   softCapabilities = [
-    { name: 'COMMUNICATION', percentage: 80, color: '#00eeff' },
-    { name: 'TEAMWORK', percentage: 95, color: '#00ffbf' },
-    { name: 'PROBLEM SOLVING', percentage: 80, color: '#00eeff' },
-    { name: 'CREATIVITY', percentage: 70, color: '#b026ff' }
+    { name: 'COMMUNICATION', percentage: 80, color: '#ff8000' },
+    { name: 'TEAMWORK', percentage: 95, color: '#ffa500' },
+    { name: 'PROBLEM SOLVING', percentage: 80, color: '#ff9500' },
+    { name: 'CREATIVITY', percentage: 70, color: '#ff6a00' }
   ];
 
   projects: Project[] = [
@@ -89,12 +99,38 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.GetAllAboutMe();
+    this.typeRole();
   }
 
   ngAfterViewInit(): void {
   }
 
   ngOnDestroy(): void {
+  }
+
+  typeRole(): void {
+    const currentRole = this.roles[this.roleIndex];
+    
+    if (this.isDeleting) {
+      this.displayedRole = currentRole.substring(0, this.charIndex - 1);
+      this.charIndex--;
+    } else {
+      this.displayedRole = currentRole.substring(0, this.charIndex + 1);
+      this.charIndex++;
+    }
+
+    let delta = this.isDeleting ? this.deleteSpeed : this.typingSpeed;
+
+    if (!this.isDeleting && this.charIndex === currentRole.length) {
+      delta = this.pauseBetweenRoles;
+      this.isDeleting = true;
+    } else if (this.isDeleting && this.charIndex === 0) {
+      this.isDeleting = false;
+      this.roleIndex = (this.roleIndex + 1) % this.roles.length;
+      delta = 500;
+    }
+
+    setTimeout(() => this.typeRole(), delta);
   }
 
   // --- New Methods ---
