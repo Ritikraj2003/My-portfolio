@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { AuthService } from '../../admin/services/auth.service';
 import { SeoService } from '../../core/services/seo.service';
@@ -35,7 +35,8 @@ export class SkillsComponent implements OnInit {
  skills: any[] = []; // Initialize as an empty array  
   constructor(
     private authService: AuthService,
-    private seoService: SeoService
+    private seoService: SeoService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
   
 ngOnInit(): void {
@@ -44,7 +45,10 @@ ngOnInit(): void {
     description: 'Technical skills and soft capabilities of Ritik Raj, including Angular, .NET Core, SQL Server, and full-stack development expertise.',
     keywords: 'Ritik Raj Skills, Angular Developer Skills, .NET Developer Expertise'
   });
-  this.GetAllSkills();
+
+  if (isPlatformBrowser(this.platformId)) {
+    this.GetAllSkills();
+  }
 }
 
 StaticSkill = [

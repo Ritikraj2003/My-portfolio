@@ -180,8 +180,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
 
-    this.GetAllAboutMe();
     if (isPlatformBrowser(this.platformId)) {
+      this.GetAllAboutMe();
       this.typeRole();
       this.startFeedbackTimer();
     }
