@@ -1,24 +1,24 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse
-} from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const token = sessionStorage.getItem('token');
+    let token = null;
+    if (isPlatformBrowser(this.platformId)) {
+      token = sessionStorage.getItem('token');
+    }
 
     if (token) {
-      debugger
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
@@ -29,9 +29,10 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          // Auto logout if 401 Unauthorized response
-          sessionStorage.removeItem('token');
-          this.router.navigate(['/admin/login']);
+          if (isPlatformBrowser(this.platformId)) {
+            sessionStorage.removeItem('token');
+            this.router.navigate(['/admin/login']);
+          }
         }
         return throwError(() => error);
       })

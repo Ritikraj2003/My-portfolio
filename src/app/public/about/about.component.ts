@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core'
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../admin/services/auth.service';
+import { SeoService } from '../../core/services/seo.service';
 
 @Component({
   selector: 'app-about',
@@ -29,24 +30,35 @@ export class AboutComponent implements OnInit {
    baseUrl: string = environment.apiUrl.replace(/\/api$/, '');
    image: any;
 
-   constructor(private authService: AuthService) {}
+   constructor(
+     private authService: AuthService,
+     @Inject(PLATFORM_ID) private platformId: Object,
+     private seoService: SeoService
+   ) {}
   ngOnInit(): void {
+    this.seoService.updateSeoTags({
+      title: 'About Me',
+      description: 'Learn more about Ritik Raj, his experience in .NET and Angular development, and his passion for building scalable web solutions.',
+      keywords: 'About Ritik Raj, Software Developer Experience, .NET Expert, Angular Developer'
+    });
     this.GetAllAboutMe();
   }
 
-GetAllAboutMe() {
-  debugger;
+  GetAllAboutMe() {
     this.authService.GetAllAboutMe().subscribe((res) => {
       console.log(res);
       this.aboutMe = res.data;
       this.resume = this.aboutMe[0].resumeFile ? this.baseUrl + this.aboutMe[0].resumeFile : '';
       this.image = this.aboutMe[0].imageFile ? this.baseUrl + this.aboutMe[0].imageFile : '';
-      sessionStorage.setItem('name', this.aboutMe[0].name);
+      if (isPlatformBrowser(this.platformId)) {
+        sessionStorage.setItem('name', this.aboutMe[0].name);
+      }
     });
   }
 
   downloadResume() {
-    debugger
+  if (!isPlatformBrowser(this.platformId)) return;
+
   fetch(this.resume, { mode: 'cors' })
     .then(response => response.blob())
     .then(blob => {

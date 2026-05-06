@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,11 @@ export class LoginComponent {
   errorMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   onSubmit(): void {
     if (this.username && this.password) {
@@ -31,8 +37,10 @@ export class LoginComponent {
           this.isLoading = false;
           // Assuming the API returns a token in the response body
           if (response && response.token) {
-            sessionStorage.setItem('token', response.token);
-            this.router.navigate(['/admin/dashboard']);
+            if (isPlatformBrowser(this.platformId)) {
+              sessionStorage.setItem('token', response.token);
+              this.router.navigate(['/admin/dashboard']);
+            }
           } else {
             this.errorMessage = 'Login failed: No token received.';
           }

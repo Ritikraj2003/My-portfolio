@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router'
 import { CommonModule } from '@angular/common';
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../admin/services/auth.service';
+import { SeoService } from '../../core/services/seo.service';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -16,6 +18,7 @@ interface Service {
 
 interface Project {
   id: number;
+  application: string;
   title: string;
   des: string;
   img: string;
@@ -46,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   aboutMe: any;
   resume!: string;
   baseUrl: string = environment.apiUrl.replace(/\/api$/, '');
-  
+
   // Typing Effect Data
   roles: string[] = ['Full Stack Developer', 'Problem Solver', 'Web Enthusiast'];
   displayedRole: string = '';
@@ -66,9 +69,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   skillCategories = [
     { name: 'Backend', icon: 'bi-database-fill', skills: ['DOTNET', 'EXPRESS'] },
-    { name: 'Frontend', icon: 'bi-layout-text-sidebar-reverse', skills: ['ANGULAR', 'REACT'] },
-    { name: 'Languages', icon: 'bi-code-slash', skills: ['JAVA', 'C#', 'JAVASCRIPT'] },
-    { name: 'Tools', icon: 'bi-tools', skills: ['DOCKER', 'AWS'] }
+    { name: 'Frontend', icon: 'bi-layout-text-sidebar-reverse', skills: ['ANGULAR', 'ANGULAR.JS', 'REACT', 'HTML', 'CSS'] },
+    { name: 'Languages', icon: 'bi-code-slash', skills: ['JAVA', 'C#', 'JAVASCRIPT',] },
+    { name: 'Tools', icon: 'bi-tools', skills: ['DOCKER', 'AWS', 'GIT'] }
   ];
 
   softCapabilities = [
@@ -79,10 +82,44 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
 
   projects: Project[] = [
-    { id: 1, title: 'Web Development', des: 'Modern web applications with fast performance, clean design, and reliable functionality. This comprehensive solution focuses on scalability and user engagement across all platforms.', img: 'assets/project1.png', url: 'https://uxbexpresslogistics.com/', isExpanded: false },
-    { id: 2, title: 'Web Development', des: 'Interactive and user-friendly mobile experiences for iOS and Android. Our approach ensures native-like performance with a single codebase for faster delivery.', img: 'assets/project2.png', url: 'https://omstructuresolutions.com/', isExpanded: false },
-    { id: 3, title: 'Web Development', des: 'Scalable e-commerce solutions with seamless payment integrations. Built to handle high traffic and provide a secure shopping experience for customers worldwide.', img: 'assets/project3.png', url: 'https://ritikraj2003.github.io/mbr/home', isExpanded: false }
+    {
+      id: 1,
+      application: 'Web Site',
+      title: 'UXB Express Logistics',
+      des: 'An end-to-end logistics platform designed for UXB Express, featuring real-time cargo tracking, secure shipment management, and a high-performance dashboard for global operations.',
+      img: 'assets/project1.png',
+      url: 'https://uxbexpresslogistics.com/',
+      isExpanded: false
+    },
+    {
+      id: 2,
+      application: 'Web Application',
+      title: 'Om Structure Solutions',
+      des: 'A leading infrastructure and construction platform providing comprehensive civil, structural, and solar engineering solutions across Eastern India.',
+      img: 'assets/project2.png',
+      url: 'https://omstructuresolutions.com/',
+      isExpanded: false
+    },
+    {
+      id: 3,
+      application: 'Web Application',
+      title: 'MBR Digitech Solutions',
+      des: 'A digital agency platform offering quick and hassle-free website development, software solutions, and digital marketing services for small businesses.',
+      img: 'assets/project3.png',
+      url: 'https://ritikraj2003.github.io/mbr/home',
+      isExpanded: false
+    },
+    {
+      id: 4,
+      application: 'Web Application',
+      title: 'Moments Studio',
+      des: 'A premium photography portfolio specializing in wedding and event photography, capturing timeless moments with creative perfection in the Patna region.',
+      img: 'assets/moments.png',
+      url: 'https://momentsstudio.in/',
+      isExpanded: false
+    }
   ];
+
 
   feedbacks: Feedback[] = [
     {
@@ -115,27 +152,39 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private router: Router,
     private authService: AuthService,
     private http: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private seoService: SeoService
   ) { }
 
   ngOnInit(): void {
-    this.route.fragment.subscribe(frag => {
-      if (frag) {
-        setTimeout(() => {
-          const element = document.getElementById(frag);
-          if (element) {
-            const headerOffset = 80;
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-          }
-        }, 500); // Small delay to ensure content is rendered
-      }
+    this.seoService.updateSeoTags({
+      title: 'Home',
+      description: 'Explore the professional portfolio of Ritik Raj, a Full Stack Developer specialized in Angular and .NET.',
+      keywords: 'Ritik Raj, Portfolio, Full Stack Developer, Web Development, Angular, .NET'
     });
 
+    if (isPlatformBrowser(this.platformId)) {
+      this.route.fragment.subscribe(frag => {
+        if (frag) {
+          setTimeout(() => {
+            const element = document.getElementById(frag);
+            if (element) {
+              const headerOffset = 80;
+              const elementPosition = element.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+          }, 500); // Small delay to ensure content is rendered
+        }
+      });
+    }
+
     this.GetAllAboutMe();
-    this.typeRole();
-    this.startFeedbackTimer();
+    if (isPlatformBrowser(this.platformId)) {
+      this.typeRole();
+      this.startFeedbackTimer();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -170,7 +219,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   typeRole(): void {
     const currentRole = this.roles[this.roleIndex];
-    
+
     if (this.isDeleting) {
       this.displayedRole = currentRole.substring(0, this.charIndex - 1);
       this.charIndex--;
@@ -219,11 +268,15 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.authService.GetAllAboutMe().subscribe((res) => {
       this.aboutMe = res.data;
       this.resume = this.aboutMe[0].resumeFile ? this.baseUrl + this.aboutMe[0].resumeFile : '';
-      sessionStorage.setItem('name', this.aboutMe[0].name);
+      if (isPlatformBrowser(this.platformId)) {
+        sessionStorage.setItem('name', this.aboutMe[0].name);
+      }
     });
   }
 
   downloadResume() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     this.http.get(this.resume, { responseType: 'blob' }).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);

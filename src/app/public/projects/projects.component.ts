@@ -4,6 +4,7 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
 import { environment } from '../../../environments/environment';  
 import { AuthService } from '../../admin/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SeoService } from '../../core/services/seo.service';
 
 @Component({
   selector: 'app-projects',
@@ -28,13 +29,22 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   ]
 })
 export class ProjectsComponent implements OnInit {
-  constructor(private APiService: AuthService, private modalService: NgbModal) {}
+  constructor(
+    private APiService: AuthService, 
+    private modalService: NgbModal,
+    private seoService: SeoService
+  ) {}
 
   @ViewChild('descModal') descModal!: TemplateRef<any>;
   fullDescription: string = '';
   selectedProject: any = null;
 
   ngOnInit(): void {
+    this.seoService.updateSeoTags({
+      title: 'Projects',
+      description: 'A showcase of web applications and software projects developed by Ritik Raj, featuring logistics dashboards, architectural websites, and more.',
+      keywords: 'Ritik Raj Projects, Web Portfolio, Angular Projects, .NET Case Studies'
+    });
     this.GetAllProjects();
   }
 

@@ -1,8 +1,4 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './public/home/home.component';
-import { AboutComponent } from './public/about/about.component';
-import { ProjectsComponent } from './public/projects/projects.component';
-import { SkillsComponent } from './public/skills/skills.component';
 import { LayoutComponent } from './layout/layout.component';
 
 export const routes: Routes = [
@@ -11,10 +7,22 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-      { path: 'about', component: AboutComponent },
-      { path: 'projects', component: ProjectsComponent },
-      { path: 'skills', component: SkillsComponent },
+      { 
+        path: 'home', 
+        loadComponent: () => import('./public/home/home.component').then(m => m.HomeComponent) 
+      },
+      { 
+        path: 'about', 
+        loadComponent: () => import('./public/about/about.component').then(m => m.AboutComponent) 
+      },
+      { 
+        path: 'projects', 
+        loadComponent: () => import('./public/projects/projects.component').then(m => m.ProjectsComponent) 
+      },
+      { 
+        path: 'skills', 
+        loadComponent: () => import('./public/skills/skills.component').then(m => m.SkillsComponent) 
+      },
     ]
   },
   {

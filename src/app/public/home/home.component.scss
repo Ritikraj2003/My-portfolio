@@ -2,11 +2,11 @@
   position: relative;
   width: 100%;
   justify-content: space-between;
-  height: 100vh;
+  min-height: 100vh;
   background: var(--bg-color);
   display: flex;
   align-items: center;
-  padding: 70px 10% 2rem;
+  padding: 100px 10% 5rem;
   color: var(--text-color);
   overflow: hidden;
 
@@ -265,9 +265,9 @@
   align-items: center;
   gap: 2rem;
   background: var(--second-bg-color);
-  padding: 5rem 10%;
+  padding: 4rem 10%;
   color: var(--text-color);
-  min-height: 100vh;
+  min-height: auto;
 
   .about-img {
     position: relative;
@@ -407,7 +407,7 @@
 
 /* Services carousel Section */
 .services {
-  min-height: 100vh;
+  min-height: auto;
   padding: 5rem 10%;
   background: var(--bg-color);
   color: var(--text-color);
@@ -538,7 +538,7 @@
 
 /* Skills Section */
 .skills {
-  min-height: 100vh;
+  min-height: auto;
   padding: 5rem 10%;
   background: var(--second-bg-color);
   color: var(--text-color);
@@ -1164,9 +1164,9 @@
 
   .projects-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     align-items: center;
-    gap: 2.5rem;
+    gap: 2rem;
 
     .projects-box {
       position: relative;
@@ -1174,7 +1174,32 @@
       box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4);
       overflow: hidden;
       display: flex;
-      height: 450px;
+      height: 550px;
+
+      .project-type-tag {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        // padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px) saturate(150%);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        transition: 0.5s ease;
+
+        span {
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: var(--main-color);
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+      }
 
       img {
         width: 100%;
@@ -1275,6 +1300,11 @@
 
       &:hover .projects-layer {
         transform: translateY(0);
+      }
+
+      &:hover .project-type-tag {
+        transform: translateY(100%);
+        opacity: 0;
       }
     }
   }

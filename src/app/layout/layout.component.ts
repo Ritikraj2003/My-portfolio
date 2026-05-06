@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
@@ -12,7 +12,10 @@ import { CommonModule } from '@angular/common';
 export class LayoutComponent {
   isMobileMenuOpen = false;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
   
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -28,17 +31,19 @@ export class LayoutComponent {
     // Check if we are already on home page (ignoring fragments)
     const currentUrl = this.router.url.split('#')[0];
     if (currentUrl === '/home' || currentUrl === '/') {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        // Offset for the fixed header (approx 80px)
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      if (isPlatformBrowser(this.platformId)) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          // Offset for the fixed header (approx 80px)
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
       }
     } else {
       this.router.navigate(['/home'], { fragment: sectionId });

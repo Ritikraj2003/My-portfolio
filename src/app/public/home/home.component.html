@@ -109,13 +109,10 @@
             <span class="cap-name">{{ cap.name }}</span>
           </div>
         </div>
-        <div class="card-footer">
-          <i class="bi bi-info-circle-fill"></i>
-          <span>Values derived from peer evaluations and professional milestone completion metrics.</span>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <section class="projects" id="projects">
     <h2 class="heading">Our <span>Projects</span></h2>
@@ -123,6 +120,9 @@
     <div class="projects-container">
       <div class="projects-box" *ngFor="let project of projects">
         <img [src]="project.img" [alt]="project.title">
+        <div class="project-type-tag">
+          <span>{{ project.application }}</span>
+        </div>
         <div class="projects-layer">
           <h4>{{ project.title }}</h4>
           <p>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { AuthService } from '../../admin/services/auth.service';
+import { SeoService } from '../../core/services/seo.service';
 @Component({
   selector: 'app-skills',
   standalone: true,
@@ -33,10 +34,16 @@ export class SkillsComponent implements OnInit {
 
  skills: any[] = []; // Initialize as an empty array  
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private seoService: SeoService
   ) { }
   
 ngOnInit(): void {
+  this.seoService.updateSeoTags({
+    title: 'Skills & Expertise',
+    description: 'Technical skills and soft capabilities of Ritik Raj, including Angular, .NET Core, SQL Server, and full-stack development expertise.',
+    keywords: 'Ritik Raj Skills, Angular Developer Skills, .NET Developer Expertise'
+  });
   this.GetAllSkills();
 }
 
